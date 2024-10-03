@@ -1,23 +1,22 @@
 services:
   web:
     build: .
+    
     ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
+      - "8000:8000"  # Exposes the Django app on port 8000
+    depends_on:
+      - db  # Ensures that the db service is started before the web service
     environment:
-      - POSTGRES_DB=todolist_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/todolist_db  # Database URL for Django
+    volumes:
+      - .:/code  # Maps the current directory to /code in the container
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
   db:
-    image: postgres:latest
+    image: postgres:latest  # Uses the official PostgreSQL image
     environment:
-      POSTGRES_DB: todolist_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      POSTGRES_DB: todolist_db  # Your database name
+      POSTGRES_USER: postgres      # Your PostgreSQL username
+      POSTGRES_PASSWORD: postgres   # Your PostgreSQL password
+    ports:
+      - "5432:5432"

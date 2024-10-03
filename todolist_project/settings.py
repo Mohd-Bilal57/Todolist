@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-i6new)g5&*8ppg23ac85b)-b)=9$i(jm3&spd&c^gew3!01zl^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',  # Allow requests from localhost
+    '127.0.0.1',  # Allow requests from the loopback interface
+    '192.168.1.219',  # Allow requests from your Raspberry Pi IP
+    # You can also add other IPs or domain names if necessary
+]
 STATIC_URL = '/static/'
 
 
@@ -81,7 +86,7 @@ DATABASES = {
         'NAME': 'todolist_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }
